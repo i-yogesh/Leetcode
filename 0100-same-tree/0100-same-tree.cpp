@@ -17,10 +17,11 @@ public:
             ans.push_back(-1);
             return;
         }
-        //LNR
-        ans.push_back(root->val);
+        //LRN
+        //postorder
         helper(root->left, ans);
         helper(root->right, ans);
+        ans.push_back(root->val);
     }
     bool isSameTree(TreeNode* p, TreeNode* q) {
         vector<int> ans;
