@@ -11,30 +11,13 @@
  */
 class Solution {
 public:
-    void helper(TreeNode* root, vector<int>& ans)
-    {
-        if(root==NULL){
-            ans.push_back(-1);
-            return;
-        }
-        //LRN
-        //postorder
-        helper(root->left, ans);
-        helper(root->right, ans);
-        ans.push_back(root->val);
-    }
     bool isSameTree(TreeNode* p, TreeNode* q) {
-        vector<int> ans;
-        vector<int> ans2;
-        
-        helper(p,ans);
-        helper(q,ans2);
-        if(ans.size()!=ans2.size())
+        if(p==NULL && q==NULL)
+            return true;
+        if((p==NULL && q!=NULL) || (p!=NULL && q==NULL))
             return false;
-        for(int i=0; i<ans.size(); i++){
-            if(ans[i] != ans2[i])
-                return false;
-        }
-        return true;
+        if(p->val!=q->val)
+            return false;
+        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
