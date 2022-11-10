@@ -6,7 +6,7 @@ public:
             mp[nums[i]]+=1;
         }
         for(int i=1; i<=nums.size()+1; i++){
-            if(mp.find(i) == mp.end())
+            if(mp[i]==0)
                 return i;
         }
         return 0;
