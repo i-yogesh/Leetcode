@@ -13,41 +13,19 @@ class Solution
     public:
         ListNode* removeZeroSumSublists(ListNode *head)
         {
-            vector<int> nums;
-            ListNode *temp = head;
-            while (temp != NULL)
+            ListNode* ans = new ListNode;
+            ans->next=head;
+            int sum=0;
+            for(ListNode* i = ans; i!=NULL; i=i->next)
             {
-                nums.push_back(temp->val);
-                temp = temp->next;
-            }
-
-            int sum = 0,i,j;
-            for (i = 0; i < nums.size(); i++)
-            {
-                sum = 0;
-                for (j = i; j < nums.size(); j++)
+                sum=0;
+                for(ListNode* j = i->next; j!=NULL; j= j->next)
                 {
-                    sum += nums[j];
-                    if (sum == 0)
-                        break;
-                }
-                if (sum == 0)
-                {
-                    nums.erase(nums.begin() + i, nums.begin() + j + 1);
-                    i--;
+                    sum+=j->val;
+                    if(sum==0)
+                        i->next=j->next;
                 }
             }
-            if(nums.size() == 0)
-                return NULL;
-            
-            temp = new ListNode(nums[0]);
-            ListNode* ans = temp;
-            for(int i=1; i<nums.size(); i++)
-            {
-                ListNode* newN = new ListNode(nums[i]);
-                temp->next = newN;
-                temp=newN;
-            }
-            return ans;
+            return ans->next;
         }
 };
