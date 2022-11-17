@@ -15,10 +15,12 @@ public:
     {
         if(!root)
             return NULL;
-        TreeNode* left = root->left, *right = root->right;
-        root->left = solve(right);
-        root->right = solve(left);
+        TreeNode* temp = root->left;
+        root->left = root->right;
+        root->right = temp;
         
+        solve(root->left);
+        solve(root->right);
         return root;
     }
     TreeNode* invertTree(TreeNode* root) {
