@@ -21,30 +21,24 @@
  */
 class Solution {
 public:
-    void inorder(ListNode* head, vector<int>& ans){
-        
-        while(head!=NULL)
-        {
-            ans.push_back(head->val);
-            head=head->next;
-        }
-    }
-    
-    TreeNode* inorderToBST(vector<int> &ans, int s, int e)
-    {
-        if(s > e)
+    TreeNode* sortedListToBST(ListNode* head) {
+        if(head==NULL)
             return NULL;
         
-        int mid = s+(e-s)/2;
-        TreeNode* root = new TreeNode(ans[mid]);
-        root->left = inorderToBST(ans,s,mid-1);
-        root->right = inorderToBST(ans, mid+1, e);
-        return root;
-    }
-    TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> ans;
-        inorder(head, ans);
+        if(head->next==NULL)
+            return new TreeNode(head->val);
         
-        return inorderToBST(ans, 0, ans.size()-1);
+        ListNode* slow=head, *fast=head->next;
+        while(fast->next && fast->next->next){
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        ListNode* mid = slow->next;
+        slow->next=NULL;
+        TreeNode* root = new TreeNode(mid->val);
+        root->left  =  sortedListToBST(head);
+        root->right =   sortedListToBST(mid->next);
+        
+        return root;
     }
 };
