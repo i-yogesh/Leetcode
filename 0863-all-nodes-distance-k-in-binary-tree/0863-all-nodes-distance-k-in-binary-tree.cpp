@@ -58,11 +58,11 @@ public:
                 
                 if(node->left && !visited[node->left]){
                     que.push(node->left);
-                    visited[node]=true;
+                    visited[node->left]=true;
                 }
                 if(node->right && !visited[node->right]){
                     que.push(node->right);
-                    visited[node]=true;
+                    visited[node->right]=true;
                 }
                 if(parents[node] && !visited[parents[node]]){
                     que.push(parents[node]);
