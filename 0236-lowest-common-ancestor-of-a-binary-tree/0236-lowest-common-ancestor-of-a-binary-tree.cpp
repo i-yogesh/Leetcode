@@ -9,28 +9,19 @@
  */
 class Solution {
 public:
-    bool search(TreeNode* root, TreeNode* key,vector<TreeNode*> &arr)
-    {
-        if(!root) return false;
-        arr.push_back(root);
-        if(root == key){
-            return true;
-        }
-        if( search(root->left, key,arr) ||  search(root->right, key,arr))
-            return true;
-        arr.pop_back();
-        return false;
-    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-       vector<TreeNode*> arr1, arr2;
-        search(root,p, arr1);
-        search(root,q, arr2);
-        TreeNode* ans=arr1[0];
-        for(int i=0; i<arr1.size() && i<arr2.size(); i++){
-            if(arr1[i] != arr2[i])
-                return ans;
-            ans=arr1[i];
-        }
-        return ans;
+       
+        if(root == NULL)
+            return NULL;
+        if(root == p || root == q)
+            return root;
+        
+        TreeNode* left = lowestCommonAncestor(root->left, p, q);
+        TreeNode* right = lowestCommonAncestor(root->right, p, q);
+        if(left == NULL)
+            return right;
+        if(right==NULL)
+            return left;
+        return root;
     }
 };
