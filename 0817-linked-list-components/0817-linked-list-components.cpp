@@ -12,13 +12,17 @@ class Solution {
 public:
     int numComponents(ListNode* head, vector<int>& nums) {
         
+        set<int> st;
+        for(auto i: nums)   
+            st.insert(i);
+        
         ListNode* temp = head;
         int count=0;
         bool connected=false;
         while(temp!=NULL)
         {
             int key = temp->val;
-            if(find(nums.begin(), nums.end(), key)!=nums.end())
+            if(st.count(key))
                 connected = true;
             else{
                 if(connected)
