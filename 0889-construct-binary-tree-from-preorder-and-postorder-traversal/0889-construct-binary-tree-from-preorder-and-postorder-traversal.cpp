@@ -12,7 +12,7 @@
 class Solution {
 public:
     
-    TreeNode* solve(vector<int>& pre, vector<int>& post, int preStart, int preEnd, int postStart, int postEnd, unordered_map<int, int> &mp)
+    TreeNode* solve(vector<int>& pre, vector<int>& post, int preStart, int preEnd, int postStart, int postEnd)
     {
         if(preStart > preEnd)
             return NULL;
@@ -27,8 +27,8 @@ public:
             postIndex++;
         //postIndex is the breaking point
         int len = postIndex-postStart+1;
-        root->left = solve(pre, post, preStart+1, preStart+len, postStart, postIndex, mp);
-        root->right = solve(pre, post, preStart+len+1, preEnd, postIndex+1, postEnd-1, mp);
+        root->left = solve(pre, post, preStart+1, preStart+len, postStart, postIndex);
+        root->right = solve(pre, post, preStart+len+1, preEnd, postIndex+1, postEnd-1);
         
         return root;
     }
@@ -36,11 +36,8 @@ public:
     TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder) {
         int preIndex = 0;
         int n = preorder.size();
-        unordered_map<int, int> mp;
-        for(int i=0; i<n; i++)
-            mp[postorder[i]] = i;
-        
-        TreeNode* ans = solve(preorder, postorder, 0,n-1, 0, n-1, mp);
+
+        TreeNode* ans = solve(preorder, postorder, 0,n-1, 0, n-1);
         return ans;
     }
 };
