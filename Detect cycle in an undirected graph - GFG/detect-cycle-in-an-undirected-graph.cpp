@@ -5,27 +5,40 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool isCycleDFS(int u, vector<int> adj[], vector<bool> &visited, int parent)
-    {
+    // Function to detect cycle in an undirected graph.
+    
+    bool checkCycleBFS(int u, vector<int> adj[], vector<bool> &visited){
+        
+        queue<pair<int,int>> q;
         visited[u] = true;
-        for(int &v: adj[u])
+        q.push({u,-1});
+        
+        while(!q.empty())
         {
-            if(v == parent)
-                continue;
-            if(visited[v]) //parent bhi nhi h, visited bhi h so cycle
-                return true;
-            if(isCycleDFS(v,adj,visited,u))
-                return true;
+            int node = q.front().first; 
+            int parent = q.front().second;
+            q.pop();
+            
+            for(int &v: adj[node]){
+                if(parent == v)
+                    continue;
+                if(visited[v]) //parent bhi nhi h, visited bhi h
+                    return true;
+                visited[v] = true;
+                q.push({v, node});
+            }
         }
         return false;
     }
+    
     bool isCycle(int V, vector<int> adj[]) {
-       vector<bool> visited(V, false);
-       for(int u=0; u<V; u++){ //u visited nhi h aur cycle bhi h so true
-           if(!visited[u] && isCycleDFS(u, adj, visited,-1))
-            return true;
-       }
-       return false;
+        vector<bool> visited(V, false);
+        
+        for(int u=0; u<V; u++){
+            if(!visited[u] && checkCycleBFS(u,adj,visited))
+                return true;
+        }
+        return false;
     }
 };
 
