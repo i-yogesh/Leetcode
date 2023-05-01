@@ -13,13 +13,14 @@ class Solution {
         inCurrRecursion[u] = true;
         
         for(int &v: adj[u]){
+            
+            if(visited[v] && inCurrRecursion[v])
+                return true;
+                
             if(!visited[v]){
                 if(checkCycleDirected(v, adj, visited, inCurrRecursion))
                     return true;
             }
-            
-            if(visited[v] && inCurrRecursion[v])
-                return true;
             
         }
         inCurrRecursion[u]=false;
