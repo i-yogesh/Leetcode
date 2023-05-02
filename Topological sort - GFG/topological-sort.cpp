@@ -6,32 +6,37 @@ using namespace std;
 class Solution
 {
 	public:
-	//Function to return list containing vertices in Topological order. 
-	void  DFSTopologicalSort(int u, vector<int> adj[], vector<bool> &visited, stack<int> &st){
-	    if(visited[u])
-	        return;
-	    visited[u] = true;
-	    for(int &v: adj[u]){
-	        if(!visited[v])
-	            DFSTopologicalSort(v,adj,visited,st);
-	    }
-	    //phle u ke sare children ko stack me dalo
-	    //phr u ko stack me dalo
-	    st.push(u);
-	}
+	//Function to return list containing vertices in Topological order.
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    vector<bool> visited(V, false);
-	    stack<int> st;
+	    //1.Fill Indegree Array
+	    vector<int> indegree(V, 0);
 	    for(int u=0; u<V; u++){
-	        if(!visited[u])
-	            DFSTopologicalSort(u,adj,visited,st);
+	        for(int &v: adj[u]){
+	            indegree[v]++;
+	        }
 	    }
+	    
 	    vector<int> ans;
-	    while(!st.empty()){
-	        int top = st.top();
-	        ans.push_back(top);
-	        st.pop();
+	    queue<int> q;
+	    //2. Fill queue with indegree 0
+	    for(int u=0; u<V; u++){
+	        if(indegree[u]==0)
+	            q.push(u);
+	    }
+	    
+	    //3.Simple BFS
+	    while(!q.empty()){
+	        int node = q.front();
+	        ans.push_back(node);
+	        q.pop();
+	        
+	        //Decrease indegree for the node getting visited and if its 0 pushinto the queue
+	        for(int& v: adj[node]){
+	           indegree[v]--;
+	            if(indegree[v] == 0)
+	                q.push(v);
+	        }
 	    }
 	    return ans;
 	}
