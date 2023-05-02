@@ -9,6 +9,8 @@ class Solution {
     
     bool checkCycleDirected(int u, vector<int> adj[], vector<bool> &visited, vector<bool> &inCurrRecursion)
     {
+        if(visited[u])
+            return true;
         visited[u] = true;
         inCurrRecursion[u] = true;
         
