@@ -7,36 +7,41 @@ class Solution {
   public:
     // Function to detect cycle in a directed graph.
     
-    bool checkCycleDirected(int u, vector<int> adj[], vector<bool> &visited, vector<bool> &inCurrRecursion)
-    {
-        if(visited[u])
-            return true;
-        visited[u] = true;
-        inCurrRecursion[u] = true;
-        
-        for(int &v: adj[u]){
-            
-            if(visited[v] && inCurrRecursion[v])
-                return true;
-                
-            if(!visited[v]){
-                if(checkCycleDirected(v, adj, visited, inCurrRecursion))
-                    return true;
-            }
-            
-        }
-        inCurrRecursion[u]=false;
-        return false;
-    }
     bool isCyclic(int V, vector<int> adj[]) {
-        vector<bool> visited(V, false);
-        vector<bool> inCurrRecursion(V, false);
-        
-        for(int u=0; u<V; u++){
-            if(!visited[u] && checkCycleDirected(u, adj, visited, inCurrRecursion))
-                return true;
-        }
-        return false;
+        //1.Fill Indegree Array
+	    vector<int> indegree(V, 0);
+	    for(int u=0; u<V; u++){
+	        for(int &v: adj[u]){
+	            indegree[v]++;
+	        }
+	    }
+	    
+	    
+	    queue<int> q;
+	    //2. Fill queue with indegree 0
+	    for(int u=0; u<V; u++){
+	        if(indegree[u]==0)
+	            q.push(u);
+	    }
+	    
+	    int nodeCount=0; //Important
+	    
+	    //3.Simple BFS
+	    while(!q.empty()){
+	        int node = q.front();
+	        nodeCount++;
+	        q.pop();
+	        
+	        //Decrease indegree for the node getting visited and if its 0 pushinto the queue
+	        for(int& v: adj[node]){
+	           indegree[v]--;
+	            if(indegree[v] == 0)
+	                q.push(v);
+	        }
+	    }
+	    if(nodeCount!=V) //agr queue puri nhi bhr rhi mtlb cycle h
+	        return true;
+	    return false;
     }
 };
 
