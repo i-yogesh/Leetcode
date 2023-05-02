@@ -8,12 +8,15 @@ class Solution
 	public:
 	//Function to return list containing vertices in Topological order. 
 	void  DFSTopologicalSort(int u, vector<int> adj[], vector<bool> &visited, stack<int> &st){
+	    if(visited[u])
+	        return;
 	    visited[u] = true;
-	    
 	    for(int &v: adj[u]){
 	        if(!visited[v])
 	            DFSTopologicalSort(v,adj,visited,st);
 	    }
+	    //phle u ke sare children ko stack me dalo
+	    //phr u ko stack me dalo
 	    st.push(u);
 	}
 	vector<int> topoSort(int V, vector<int> adj[]) 
