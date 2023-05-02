@@ -8,40 +8,33 @@ class Solution {
     // Function to detect cycle in a directed graph.
     
     bool isCyclic(int V, vector<int> adj[]) {
-        //1.Fill Indegree Array
-	    vector<int> indegree(V, 0);
-	    for(int u=0; u<V; u++){
+        vector<int> indegree(V,0);
+	    for(int u=0; u<V;u++){
 	        for(int &v: adj[u]){
 	            indegree[v]++;
 	        }
 	    }
-	    
-	    
 	    queue<int> q;
-	    //2. Fill queue with indegree 0
 	    for(int u=0; u<V; u++){
-	        if(indegree[u]==0)
+	        if(indegree[u] == 0)
 	            q.push(u);
 	    }
 	    
-	    int nodeCount=0; //Important
-	    
-	    //3.Simple BFS
+	    int nodeCount=0;
 	    while(!q.empty()){
 	        int node = q.front();
 	        nodeCount++;
 	        q.pop();
 	        
-	        //Decrease indegree for the node getting visited and if its 0 pushinto the queue
-	        for(int& v: adj[node]){
-	           indegree[v]--;
+	        for(int &v: adj[node]){
+	            indegree[v]--;
 	            if(indegree[v] == 0)
 	                q.push(v);
 	        }
 	    }
-	    if(nodeCount!=V) //agr queue puri nhi bhr rhi mtlb cycle h
-	        return true;
-	    return false;
+	    if(nodeCount == V) // queue bhr gyi to cycle nhi h
+	        return false;
+	    return true;
     }
 };
 
