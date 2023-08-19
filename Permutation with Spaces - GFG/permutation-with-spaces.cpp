@@ -6,29 +6,20 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 public:
-    void recur(string s,string temp, vector<string> &ans)
+    void recur(int i,string s, vector<string> &ans)
     {
-        if(s.empty()){
-            ans.push_back(temp);
+        if(i>=s.size()){
+            ans.push_back(s);
             return;
         }
-        string op1 = temp, op2= temp;
-        
-        op1.push_back(' ');
-        op1.push_back(s[0]);
-        
-        op2.push_back(s[0]);
-        s.erase(s.begin()+0);
-        
-        recur(s,op1,ans);
-        recur(s,op2,ans);
+        recur(i+1,s,ans);
+        s.insert(s.begin()+i, ' ');
+        recur(i+2,s,ans);
     }
     vector<string> permutation(string s){
-        string temp="";
-        temp.push_back(s[0]);
-        s.erase(s.begin()+0);
         vector<string> ans;
-        recur(s,temp,ans);
+        recur(1,s, ans);
+        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
