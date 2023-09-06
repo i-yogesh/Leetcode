@@ -24,19 +24,21 @@ public:
 	            break;
 	        }
 	    }
-	    sort(temp.begin()+s, temp.begin()+e+1);
-	    int mini = temp[e],ansE=e;
+	    int mini = INT_MAX,maxi=INT_MIN;
+	    for(int j=s; j<=e; j++){
+	        mini = min(mini, temp[j]);
+	        maxi = max(maxi,temp[j]);
+	    }
+	    int ansE=e;
 	    for(i=e; i<n; i++){
-	        if(temp[i]<temp[e]){
-	           // mini = min(mini, temp[i]);
+	        if(temp[i]<maxi){
 	            ansE=i;
 	        }
 	    }
 	    //start
-	    int maxi = temp[s],ansS=s;
+	    int ansS=s;
 	    for(i=s; i>=0; i--){
-	        if(temp[i]>temp[s]){
-	           // maxi = max(maxi, temp[i]);
+	        if(temp[i]>mini){
 	            ansS=i;
 	        }
 	    }
